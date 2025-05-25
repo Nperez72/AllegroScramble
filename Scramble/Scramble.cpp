@@ -36,6 +36,15 @@ bool Scramble::start_game() {
 }
 
 string Scramble::scramble_word(string word) {
+	char temp;
+	int randIndex;
+	// Randomly shuffle the letters in the word
+	for (int i = 0; i < word.length(); i++) {
+		randIndex = rand() % word.length(); // Choose random letter in word
+		temp = word[i];
+		word[i] = word[randIndex]; // Swap letters
+		word[randIndex] = temp;
+	}
 	return word;
 }
 

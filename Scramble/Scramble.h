@@ -2,7 +2,8 @@
 #include <iostream>
 #include <vector>
 
-using std::string, std::vector;
+using std::string;
+using std::vector;
 
 
 // Interface for game logic in word scramble
@@ -20,9 +21,6 @@ class Scramble {
 		// Load all words from text file and return true if succesful
 		bool load_words();
 
-		// Helper method to choose what word goes into each vector
-		void insert_word(string word);
-
 		// Begin game and return true if player wins
 		bool start_game();
 
@@ -36,6 +34,9 @@ class Scramble {
 		vector<string> smallWords; // Words with length <= Small
 		vector<string> mediumWords; // Words with length > Small and <= Medium
 		vector<string> largeWords; // Words with length > Medium and <= Large
+
+		// Helper method to choose what word goes into each vector
+		void insert_word(string word);
 };
 
 enum Word { // Defined constants for word lengths
