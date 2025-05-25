@@ -5,12 +5,8 @@ using std::ifstream;
 
 // Implementation for Scramble game logic
 
-Scramble::Scramble() :  stage(Zero), numCorrect(0){
+Scramble::Scramble() :  stage(Zero), numCorrect(0), numWrong(0){
 	// Initliaze unassigned values
-}
-
-Scramble::~Scramble() {
-
 }
 
 void Scramble::game_intro() {
@@ -30,6 +26,11 @@ bool Scramble::load_words() {
 		insert_word(word);
 	}
 	words.close();
+
+	// Now that vectors are filled, initialize each iterator
+	small_word_it = smallWords.begin();
+	medium_word_it = mediumWords.begin();
+	large_word_it = largeWords.begin();
 	return true;
 }
 
@@ -51,22 +52,22 @@ bool Scramble::start_game() {
 void Scramble::swap_stage()
 {
 	if (numCorrect < 2) {
-		stage = First;
+		stage = First;      
 	}
-	else if (numCorrect >= 2 && numCorrect < 4) {
-		stage = Second;
+	else if (numCorrect < 4) {
+		stage = Second;     
 	}
 	else if (numCorrect == 4) {
-		stage = Last;
+		stage = Last;      
 	}
-	else if (numCorrect >= 5) {
+	else { // numCorrect >= 5
 		stage = End;
 		end_game();
 	}
 
 }
 
-string Scramble::CheckStage()
+string Scramble::check_stage()
 {
 	swap_stage();
 	// Get a word from the appropiate iterator, tick it, and pass word to player
@@ -100,20 +101,34 @@ string Scramble::scramble_word(string word) {
 	return word;
 }
 
-void Scramble::end_game() {
+void Scramble::score_point()
+{
+	numCorrect++;
+}
 
+void Scramble::wrong_counter()
+{
+	numWrong++;
+}
+
+void Scramble::end_game() {
+	if (numCorrect >= 5) {
+		cout << "Congratulations. You are a master scrambler!\n\n\n";
+	}
+	else {
+		cout << "You got " << numCorrect << " correct and " << numWrong << " wrong, better luck next time!\n\n\n";
+	}
+	exit(0); // Exit program
 }
 
 void Scramble::insert_word(string word) {
 	if (word.length() <= Small) {
 		smallWords.push_back(word);
-		return;
 	}
-	if (word.length() > Small && word.length() <= Medium) {
+	else if (word.length() <= Medium) {
 		mediumWords.push_back(word);
-		return;
 	}
-	if (word.length() >= Large){
+	else {
 		largeWords.push_back(word);
 	}
 }

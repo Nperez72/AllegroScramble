@@ -1,6 +1,7 @@
 #include <string>
 #include <iostream>
 #include <vector>
+#include <cstdlib>
 
 using std::string;
 using std::vector;
@@ -21,25 +22,28 @@ class Scramble {
 		// Constructor
 		Scramble();
 
-		// Destructor to clean up vectors
-		~Scramble();
-
 		// Prompt user with info when game starts
 		void game_intro();
 
 		// Load all words from text file and return true if successful
 		bool load_words();
 
-		// Begin game and return false when game ends
+		// Begin game and enter first stage
 		bool start_game();
 
 		// Check at which stage the player is at, and give the appropriate problem
-		string CheckStage();
+		string check_stage();
 
 		// Take a word and return a scrambled version
 		string scramble_word(string word);
 
-		// Displays game stats when game is over (words correct, etc.)
+		// Simple method to update correct answers
+		void score_point();
+
+		// Simple method to update wrong answers. (Only shows when player loses)
+		void wrong_counter();
+
+		// Ends game and displays game stats (words correct, etc.)
 		void end_game();
 	private:
 		int numCorrect; // Number of words player got correct
@@ -47,6 +51,7 @@ class Scramble {
 		vector<string> mediumWords; // Words with length > Small and <= Medium
 		vector<string> largeWords; // Words with length > Medium and <= Large
 		Stage stage; // Identifies what words to give player
+		int numWrong; // Number of wrong answers
 
 		// Helper method to choose what word goes into each vector
 		void insert_word(string word);
@@ -54,9 +59,9 @@ class Scramble {
 		void swap_stage();
 			
 		// Iterators to keep track of each word list
-		vector<string>::iterator small_word_it = smallWords.begin();
-		vector<string>::iterator medium_word_it = mediumWords.begin();
-		vector<string>::iterator large_word_it = largeWords.begin();
+		vector<string>::iterator small_word_it;
+		vector<string>::iterator medium_word_it;
+		vector<string>::iterator large_word_it;
 };
 
 enum Word { // Defined constants for word lengths
