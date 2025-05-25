@@ -3,8 +3,6 @@
 #include <allegro5/timer.h>
 #include <allegro5/threads.h>
 
-using std::cout;
-using std::endl;
 
 struct {
 	bool finished = false;
@@ -83,7 +81,7 @@ void* timer_thread(ALLEGRO_THREAD* thread, void* arg) {
 	while (al_get_time() - start < 60.0 && !player.finished) {
 		al_rest(0.1);
 	}
-
+	// If timer ticks, and player is not finished, a timeout is issued
 	if (!player.finished) {
 		player.timedOut = true;
 	}
